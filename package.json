@@ -1,0 +1,24 @@
+{
+  "name": "djsgs-wabot",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aakash-sengar/Djsgs-WaBot.git"
+  },
+  "author": "Akash",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aakash-sengar/Djsgs-WaBot/issues"
+  },
+  "homepage": "https://github.com/aakash-sengar/Djsgs-WaBot#readme",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0"
+  }
+}
