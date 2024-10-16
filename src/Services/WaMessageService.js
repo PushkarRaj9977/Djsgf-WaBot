@@ -3,7 +3,7 @@ const { createPayload } = require("../Utils/Helper");
 
 const sendWaMessage = async (registrationData) => {
     try {
-        console.log("req", registrationData.id)
+        
         // console.log("req.id,res.name,res.mobile", req.id, req.name, req.mobile)
         const payload = createPayload(registrationData.id, registrationData.name,registrationData.mobile);
         try {

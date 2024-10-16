@@ -1,13 +1,13 @@
 const { sendWaMessage } = require("../Services/WaMessageService");
 const crypto = require('crypto');
 const recieveRegistrationData = async (req, res) => {
-    try { 
+    try {
         const data = decryptData(req.body)
-       
+
         res.status(200).json({ message: 'Data received' });
-       
+
         sendWaMessage(data)
-       
+
 
     } catch (err) {
         console.log("err:", err)
@@ -17,7 +17,7 @@ const recieveRegistrationData = async (req, res) => {
 
 const decryptData = (encryptedData) => {
     // Laravel's APP_KEY (base64 decoded)
-   console.log("ED2",encryptedData);
+    console.log("Data recieved");
     const encryptionKey = Buffer.from(process.env.ENCRYPTION_KEY, 'base64');
 
     try {
@@ -33,7 +33,7 @@ const decryptData = (encryptedData) => {
 
         let decrypted = decipher.update(ciphertext, 'binary', 'utf8');
         decrypted += decipher.final('utf8');
-
+        console.log("decrpted data", decrypted)
         // The decrypted data is now available
         // console.log("Decrypted Data:", decrypted);
         return JSON.parse(decrypted); // Return parsed JSON
