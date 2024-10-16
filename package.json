@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "test": "npm run test",
+    "start": "node ./app.js",
+    "build": "echo 'No build steps defined'"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aakash-sengar/Djsgs-WaBot.git"
