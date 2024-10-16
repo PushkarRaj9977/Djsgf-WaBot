@@ -2,46 +2,40 @@ const { sendWaMessage } = require("../Services/WaMessageService");
 const crypto = require('crypto');
 const recieveRegistrationData = async (req, res) => {
     try {
-        const data = decryptData(req.body)
-
+        const encryptedData = req.body.encrypted_data; // Expecting base64 string
+        const decryptedData = decryptData(encryptedData);
         res.status(200).json({ message: 'Data received' });
-
-        sendWaMessage(data)
-
-
+        decryptedData ? sendWaMessage(decryptedData) : '';
     } catch (err) {
         console.log("err:", err)
     }
 }
 
-
+// Function to decrypt the data
 const decryptData = (encryptedData) => {
-    // Laravel's APP_KEY (base64 decoded)
-    console.log("Data recieved");
-    const encryptionKey = Buffer.from(process.env.ENCRYPTION_KEY, 'base64');
-
     try {
-        // Step 1: Decode the base64 encrypted string
-        const parsedData = JSON.parse(Buffer.from(encryptedData.encrypted_data, 'base64').toString('utf8'));
 
-        // Extract iv and value from the parsed JSON
-        const iv = Buffer.from(parsedData.iv, 'base64'); // Initialization Vector (IV)
-        const ciphertext = Buffer.from(parsedData.value, 'base64'); // Ciphertext
-
-        // Step 2: Decrypt the data using Node.js' crypto module
-        const decipher = crypto.createDecipheriv('aes-256-cbc', encryptionKey, iv);
-
-        let decrypted = decipher.update(ciphertext, 'binary', 'utf8');
-        decrypted += decipher.final('utf8');
-        console.log("decrpted data", decrypted)
-        // The decrypted data is now available
-        // console.log("Decrypted Data:", decrypted);
-        return JSON.parse(decrypted); // Return parsed JSON
+        // Parse the JSON data
+        const parsedData = JSON.parse(encryptedData);
+        
+        // Extract the IV and Base64-encoded value
+        const iv = Buffer.from(parsedData.iv, 'base64'); // This is your IV
+        const value = Buffer.from(parsedData.value, 'base64'); // This is your Base64-encoded data
+        
+        // Decode the value directly without encryption
+        const decodedData = value.toString('utf8'); // Convert buffer to string
+        
+        // Parse the JSON data back to an object
+        const registrationData = JSON.parse(decodedData);
+        if(iv.length) {
+            return registrationData
+        }
+        return false
     } catch (error) {
         console.error('Error during decryption:', error);
+        throw new Error('Decryption failed');
     }
 };
-
 // Example usage with your encrypted data
 
 
