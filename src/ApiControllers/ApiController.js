@@ -1,7 +1,9 @@
 const { sendWaMessage } = require("../Services/WaMessageService");
+const { logMessage } = require('./../../logger');
 const crypto = require('crypto');
 const recieveRegistrationData = async (req, res) => {
     try {
+        logMessage('Registration Data Recieved')
         const encryptedData = req.body.encrypted_data; // Expecting base64 string
         const decryptedData = decryptData(encryptedData);
         res.status(200).json({ message: 'Data received' });
@@ -33,6 +35,7 @@ const decryptData = (encryptedData) => {
         return false
     } catch (error) {
         console.error('Error during decryption:', error);
+        logMessage('Error during decryption:', error)
         throw new Error('Decryption failed');
     }
 };

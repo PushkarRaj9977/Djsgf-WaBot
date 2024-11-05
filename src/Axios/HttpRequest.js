@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { logMessage } = require('./../../logger');
 const axios = require('axios');
 const API_URL = process.env.API_URL;
 const API_TOKEN = process.env.META_PAGE_ACCESS_TOKEN;
@@ -16,15 +17,15 @@ const createHttpRequest = async ( payload) => {
 
     axios.post(API_URL, payload, { headers })
         .then(response => {
-            console.log('Template message sent successfully!@HTTPRequest');
-            console.log(response.data);
+            logMessage('Template message sent successfully!@HTTPRequest');
+            logMessage(JSON.stringify(response.data));
             return response;
         })
         .catch(error => {
             console.error('Failed to send template message.');
 
             console.error('Status code:', error.response ? error.response.status : 'Unknown');
-          
+            logMessage(`Error sending template message: ${error.message}`);
             console.error('Response:', error.response ? error.response.data : error.message);
             return error;
         });
